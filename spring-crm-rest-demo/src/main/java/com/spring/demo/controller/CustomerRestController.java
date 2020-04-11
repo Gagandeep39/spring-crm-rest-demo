@@ -8,6 +8,7 @@ package com.spring.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -71,6 +72,7 @@ public class CustomerRestController {
 	
 	/**
 	 * Put method to update Data
+	 * Request URL: http://localhost:8083/spring-crm-rest/api/customers
 	 * {
 	 * 	"id" : 11,
 	 * 	"firstName": "Gagan",
@@ -84,4 +86,31 @@ public class CustomerRestController {
 		service.saveCustomer(customer);
 		return customer;
 	}
+	
+	/**
+	 * Delete Method to delete customer
+	 * Request URL: http://localhost:8083/spring-crm-rest/api/customers/{id}
+	 * @return String messagew with ID of deleted customer
+	 */
+	@DeleteMapping("/customers/{id}")
+	public String deleteCustomer(@PathVariable int id) {
+		Customer customer = service.getCustomer(id);
+		if(customer==null)
+			throw new CustomerNotFoundException("Customer not found with ID " + id);
+		service.deleteCustomer(id);
+		return "Deleted Customer with ID " + id;
+	}
 }
+/**
+ * **********Important Notes**********
+ * Annotations related to Sping REST
+ * @Controller Servlet to handle Http requests(get, post, put, delete, etc)
+ * @RestController Handlies REST API requests (Extension of COntroller)
+ * @RequestMapping("/abc") Specify Url Path
+ * @GetMapping("/xyz") Handles Get Requests
+ * @PostMapping("/zys") Handles Post requests
+ * @PutMapping("/xyz") Handles put requests (updates)
+ * @DeleteMapping("/zbx/{id}") Handles delte requests
+ * @PathVariables int id Fetches data sepcified in url as {id} eg. @PathVariable int id
+ * @RequestBody MEthod parameter To specify request object eg. @RequestBody Customer c
+ */
