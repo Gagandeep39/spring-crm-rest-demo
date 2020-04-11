@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,12 +60,28 @@ public class CustomerRestController {
 	 *  "email" : test@mail.com
 	 * }
 	 * Post method to save custoer
-	 * @return Customer
+	 * @return Customer Customer that was added to database
 	 */
 	@PostMapping("/customers")
 	public Customer addCustomer(@RequestBody Customer customer) {
 		service.saveCustomer(customer);
 		// Here the customer will have an Updated ID
+		return customer;
+	}
+	
+	/**
+	 * Put method to update Data
+	 * {
+	 * 	"id" : 11,
+	 * 	"firstName": "Gagan",
+	 *  "lastName" : "Singh",
+	 *  "email" : test@mail.com
+	 * }
+	 * @return Customer that was updated
+	 */
+	@PutMapping("/customers")
+	public Customer updateCustomer(@RequestBody Customer customer) {
+		service.saveCustomer(customer);
 		return customer;
 	}
 }
