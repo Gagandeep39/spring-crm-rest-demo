@@ -19,11 +19,26 @@ import com.spring.demo.service.CustomerService;
 @RequestMapping("/api")
 public class CustomerRestController {
 	
+	/**
+	 * Field Injection
+	 */
 	@Autowired
 	private CustomerService service;
 
+	/**
+	 * @return List<Customer>  returns a list of Customer
+	 */
 	@GetMapping("/customers")
 	public List<Customer> getCustomers(){
 		return service.getCustomers();
+	}
+	
+	/**
+	 * Retunrs a customer based on ID
+	 * @return Customer
+	 */
+	@GetMapping("/customers/{id}")
+	public Customer getCustomerById(int id) {
+		return service.getCustomer(id);
 	}
 }
