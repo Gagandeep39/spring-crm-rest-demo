@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.demo.entity.Customer;
+import com.spring.demo.exception.CustomerNotFoundException;
 import com.spring.demo.service.CustomerService;
 
 @RestController
@@ -27,6 +28,7 @@ public class CustomerRestController {
 	private CustomerService service;
 
 	/**
+	 * Request URL: http://localhost:8083/spring-crm-rest/api/customers
 	 * @return List<Customer>  returns a list of Customer
 	 */
 	@GetMapping("/customers")
@@ -35,11 +37,15 @@ public class CustomerRestController {
 	}
 	
 	/**
+	 * Request URL: http://localhost:8083/spring-crm-rest/api/customers/{id}
 	 * Retunrs a customer based on ID
 	 * @return Customer
 	 */
 	@GetMapping("/customers/{id}")
 	public Customer getCustomerById(@PathVariable int id) {
-		return service.getCustomer(id);
+		Customer customer = service.getCustomer(id);
+		if(customer == null) 
+			throw new CustomerNotFoundException("Customer not found with ID " + id);
+		return customer;
 	}
 }
